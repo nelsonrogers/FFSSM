@@ -18,6 +18,10 @@ public class Plongee {
 	public int profondeur;
 
 	public int duree;
+        
+        //Liste des plongeurs participant à la Palanquée (Moniteur inclus)
+        private Set<Plongeur> plongeurs = new HashSet<>();
+        
 
 	public Plongee(Site lieu, Moniteur chefDePalanquee, LocalDate date, int profondeur, int duree) {
 		this.lieu = lieu;
@@ -25,13 +29,18 @@ public class Plongee {
 		this.date = date;
 		this.profondeur = profondeur;
 		this.duree = duree;
+                // Par défaut, une plongée doit avoir un moniteur qui est donc un participant
+                ajouteParticipant(chefDePalanquee);
 	}
 
 	public void ajouteParticipant(Plongeur participant) {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
+                plongeurs.add(participant);      
 	}
 
+        public Set<Plongeur> getPlongeurs() {
+                return plongeurs;
+        }
+        
 	public LocalDate getDate() {
 		return date;
 	}
@@ -43,8 +52,13 @@ public class Plongee {
 	 * @return vrai si la plongée est conforme
 	 */
 	public boolean estConforme() {
-		// TODO: Implémenter cette méthode
-		throw new UnsupportedOperationException("Pas encore implémenté");
-	}
-
+                for (Plongeur plongeur : plongeurs) {
+                    // Si un plongeur n'a pas de licence valide à la date de la plongée, on retourne false
+                    if (plongeur.getCurrentLicence(date) == null)
+                        return false;
+                }
+                // Tous les plongeurs ont une licence valide, on retourne true
+                return true;
+        }
+                
 }

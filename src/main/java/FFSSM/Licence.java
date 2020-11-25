@@ -52,8 +52,13 @@ public class Licence {
      * @return vrai si valide à la date d
      **/
     public boolean estValide(LocalDate d) {
-         // TODO: Implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        // Si la licence n'a pas encore été délivrée à la date d, retourne false
+        if (d.compareTo(delivrance) < 0)
+            return false;
+        // expiry = date de fin de validité de la licence
+        LocalDate expiry = delivrance.plusYears(1);
+        // Retourne true si la date d est antérieure la date de fin de validité de la licence, false sinon.
+        return d.compareTo(expiry) < 0;
     }
 
 }
